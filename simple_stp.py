@@ -54,7 +54,7 @@ class Node:
                 pass # No data to receive, do nothing
             if not self.disabled:
                 if time.time() - self.send_time > 2 and self.dest:
-                    message = HeaderCodes["MESSAGE"].to_bytes() + (0).to_bytes(2)
+                    message = HeaderCodes["MESSAGE"].to_bytes(1) + (0).to_bytes(2)
                     self.sock.sendto(message, ('127.0.0.1', self.dest + self.base_port))
                     self.send_time = time.time()
                 if not self.disabled and time.time() - self.recv_time > 10:
@@ -119,7 +119,7 @@ class Node:
             self.calculate_topology()
 
             if data[0] == HeaderCodes["BROADCAST"]:
-                response = HeaderCodes["WEIGHT"].to_bytes() + self.weight.to_bytes(2)
+                response = HeaderCodes["WEIGHT"].to_bytes(1) + self.weight.to_bytes(2)
                 self.sock.sendto(response, ('127.0.0.1', self.base_port + receive_id))
         elif data[0] == HeaderCodes["MESSAGE"]:
             if receive_id == self.dest:
@@ -136,7 +136,7 @@ class Node:
     def start_election(self):
         pass
         # send broadcast message to both neighbors
-        message = HeaderCodes["BROADCAST"].to_bytes() + self.weight.to_bytes(2)
+        message = HeaderCodes["BROADCAST"].to_bytes(1) + self.weight.to_bytes(2)
         for i in range(2):
             self.sock.sendto(message, ('127.0.0.1', self.base_port + 1 + (self.node_id + i) % 3))
         self.neighbors = [None, None, None]
