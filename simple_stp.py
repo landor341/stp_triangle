@@ -35,7 +35,7 @@ class Node:
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(('127.0.0.1', port))
-        self.sock.settimeout(0.01)
+        self.sock.settimeout(0.05)
     
     def run_simple_stp(self) -> None:
         self.running = True
