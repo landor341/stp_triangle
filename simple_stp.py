@@ -50,7 +50,7 @@ class Node:
             try:
                 data, (ip, port) = self.sock.recvfrom(3)
                 self.handle_message(port - self.base_port, data)
-            except socket.timeout:
+            except (socket.timeout, ConnectionResetError):
                 pass # No data to receive, do nothing
             if not self.disabled:
                 if time.time() - self.send_time > 2 and self.dest:
@@ -90,7 +90,7 @@ class Node:
                     self.thread_signals["cur_user_input"] = self.thread_signals["cur_user_input"][:-1]
                 else:
                     self.thread_signals["cur_user_input"] += last_char
-                last_char = readChar()
+                last_char = read_char()
             message = self.thread_signals["cur_user_input"].strip()
 
             if message == "exit":
@@ -187,7 +187,7 @@ def main():
 if os.name == 'nt':
     import msvcrt
 
-    def readChar():
+    def read_char():
         return msvcrt.getch().decode()
 else:  # Unix based system
     import sys
@@ -197,7 +197,7 @@ else:  # Unix based system
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
 
-    def readChar():
+    def read_char():
         ch = ""
         try:
             tty.setraw(sys.stdin.fileno())
