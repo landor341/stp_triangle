@@ -4,7 +4,7 @@ Running the program:
 	id: A number between 1 and 3
 	weight: This instance will have this weight except the bottom two bits will be replaced with the id. Weight can be between 100 and 900.
 	port: Any port number. In order for instances to communicate, each instances (port - id) value must be the same
-		This means that for instances 1,2,3 the ports will be sequential. EX. [4001, 4002, 4003] or [5123,5124,5125]
+		This means that for instances with id 1,2,3 the ports will be sequential. EX. [1 to 4001, 2 to 4002, 3 to 4003] or [1 to 5123,2 to 5124, 3 to 5125]
 
 UDP messages between nodes:
 	My program implements election by having a Node send out a broadcast message with it's weight to both of the other nodes.
