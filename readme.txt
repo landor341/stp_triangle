@@ -22,7 +22,7 @@ CLI Interface Description:
 	You can enter your commands after the colon. NOTE: It does not filter out "dirty strings". Things like backspace or pressing arrow keys will NOT work as you may expect.
 
 CLI Interface Commands:
-	"print": Prints out the current state of the three network nodes
+	"print": Prints out the current state of the three network nodes with a pretty visual (I wanted to add lines between the active nodes but didn't have time)
 	"change_weight <weight>": Changes the weight of the node to the weight except the bottom two bits are replaced with the node id. Automatically restarts election if a valid weight was given, otherwise prints an error message (weight must be an int between 100 and 900)
 	"exit": Exits the program
 	"reelect": The current node sends out a broadcast message so it can restarts it's election process
@@ -49,3 +49,4 @@ CASE: One node shuts down unexpectedly
 	If it's an active node, then after 10 seconds the other active node will realize it shut down and send out a new election alert.
 	If the shutdown node wasn't active, then nobody will notice until an update occurs to one of the other node triggering a new election message to be sent out.
 	In the case of a weird state occuring, the node that incorrectly receives a handshake when it believes it is not active automatically restarts its election process.
+	The worst possible case is that it takes 10 seconds for the Nodes to correct themselves, as they thought they were active but they were not.
